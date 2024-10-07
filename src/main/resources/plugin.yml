@@ -1,0 +1,8 @@
+website: https://mbedwars.com
+version: ${project.version}
+name: MBedwars-LevelShop
+author: "Marcel Seibel (aka Marcely1199)"
+main: de.marcely.bedwars.levelshop.LevelShopPlugin
+description: "Create spawners that drop experience points"
+api-version: 1.13
+depend: [ MBedwars ]
