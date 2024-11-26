@@ -8,7 +8,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 
-public class LevelDropTypeHandler extends CustomDropTypeHandler {
+class LevelDropTypeHandler extends CustomDropTypeHandler {
 
   LevelDropTypeHandler(LevelShopPlugin plugin) {
     super("lvl-shop", plugin);
@@ -16,9 +16,24 @@ public class LevelDropTypeHandler extends CustomDropTypeHandler {
 
   @Override
   public void handleDrop(Spawner spawner, Location dropLocation) {
-    final ExperienceOrb orb = (ExperienceOrb) dropLocation.getWorld().spawnEntity(dropLocation, EntityType.EXPERIENCE_ORB);
+    final int amount = getDropAmount(spawner);
+    ExperienceOrb orb = getNearbyOrb(dropLocation);
 
-    orb.setExperience(getDropAmount(spawner)); // 1 exp = 1 level
+    if (orb == null) {
+      orb = (ExperienceOrb) dropLocation.getWorld().spawnEntity(dropLocation, EntityType.EXPERIENCE_ORB);
+      orb.setExperience(amount);
+
+    } else
+      orb.setExperience(orb.getExperience() + amount);
+  }
+
+  // First try to merge them together. Otherwise, they get merged but their amount doesn't get added together
+  private static ExperienceOrb getNearbyOrb(Location location) {
+    return location.getWorld().getNearbyEntities(location, 2, 2, 2).stream()
+      .filter(entity -> entity.getType() == EntityType.EXPERIENCE_ORB)
+      .map(entity -> (ExperienceOrb) entity)
+      .findFirst()
+      .orElse(null);
   }
 
   private static int getDropAmount(Spawner spawner) {
