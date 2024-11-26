@@ -6,16 +6,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class LevelShopPlugin extends JavaPlugin {
 
-  private static final byte MBEDWARS_API_NUM = 113;
-  private static final String MBEDWARS_API_NAME = "5.4.14";
+  private static final byte MBEDWARS_API_NUM = 114;
+  private static final String MBEDWARS_API_NAME = "5.4.15";
 
   @Override
   public void onEnable() {
     if (!validateMBedwars())
       return;
 
+    new LevelShopAddon(this).register();
     GameAPI.get().registerCustomSpawnerHandler(new LevelDropTypeHandler(this));
-    Bukkit.getPluginManager().registerEvents(new LevelEventsHandler(), this);
+    Bukkit.getPluginManager().registerEvents(new LevelEventsHandler(this), this);
   }
 
 
