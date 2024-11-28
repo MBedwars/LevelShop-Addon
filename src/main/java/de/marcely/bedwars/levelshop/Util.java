@@ -2,7 +2,7 @@ package de.marcely.bedwars.levelshop;
 
 public class Util {
 
-  public static int getTotalExp(int level) {
+  public static int getTotalExp(int level) { // Used by GenSplitter addon
     if (level >= 32)
       return (int) (4.5D*level*level - 162.5*level + 2220);
     else if (level >= 17)

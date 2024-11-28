@@ -31,6 +31,10 @@ public class PlayerPickupOrbEvent extends PlayerEvent implements ArenaEvent {
     this.levelAmount = levelAmount;
   }
 
+  public PlayerPickupOrbEvent(PlayerPickupOrbEvent event, Player player) { // Used by GenSplitter addon
+    this(player, event.getArena(), event.getLevelAmount());
+  }
+
   /**
    * Get the amount of levels the player is about to earn.
    *
