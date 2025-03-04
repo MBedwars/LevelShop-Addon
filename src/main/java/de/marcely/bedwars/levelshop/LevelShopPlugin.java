@@ -6,8 +6,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class LevelShopPlugin extends JavaPlugin {
 
-  private static final byte MBEDWARS_API_NUM = 114;
-  private static final String MBEDWARS_API_NAME = "5.4.15";
+  private static final short MBEDWARS_API_NUM = 201;
+  private static final String MBEDWARS_API_NAME = "5.5.1";
 
   @Override
   public void onEnable() {
