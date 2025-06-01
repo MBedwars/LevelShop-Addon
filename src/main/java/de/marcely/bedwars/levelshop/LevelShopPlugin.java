@@ -16,7 +16,9 @@ public class LevelShopPlugin extends JavaPlugin {
 
     new LevelShopAddon(this).register();
     GameAPI.get().registerCustomSpawnerHandler(new LevelDropTypeHandler(this));
+
     Bukkit.getPluginManager().registerEvents(new LevelEventsHandler(this), this);
+    Bukkit.getPluginManager().registerEvents(new ShopAbuseFix(), this);
   }
 
 
