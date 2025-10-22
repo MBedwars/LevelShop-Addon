@@ -1,4 +1,4 @@
-package de.marcely.bedwars.levelshop.api;
+package de.marcely.bedwars.api.levelshop;
 
 import de.marcely.bedwars.api.arena.Arena;
 import de.marcely.bedwars.api.event.arena.ArenaEvent;

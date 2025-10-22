@@ -1,4 +1,4 @@
-package de.marcely.bedwars.levelshop.api;
+package de.marcely.bedwars.api.levelshop;
 
 import de.marcely.bedwars.api.game.spawner.CustomDropTypeHandler;
 import de.marcely.bedwars.api.game.spawner.DropType;
