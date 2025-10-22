@@ -3,7 +3,6 @@ package de.marcely.bedwars.levelshop;
 import de.marcely.bedwars.api.game.spawner.CustomDropTypeHandler;
 import de.marcely.bedwars.api.game.spawner.Spawner;
 import org.bukkit.Location;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
@@ -11,12 +10,12 @@ import org.bukkit.entity.Player;
 class LevelDropTypeHandler extends CustomDropTypeHandler {
 
   LevelDropTypeHandler(LevelShopPlugin plugin) {
-    super("lvl-shop", plugin);
+    super("orbs", plugin);
   }
 
   @Override
   public void handleDrop(Spawner spawner, Location dropLocation) {
-    final int amount = getDropAmount(spawner);
+    final int amount = SpawnerConfig.getOrbLvlAmount(spawner.getDropType());
     ExperienceOrb orb = getNearbyOrb(dropLocation);
 
     if (orb == null) {
@@ -34,15 +33,6 @@ class LevelDropTypeHandler extends CustomDropTypeHandler {
       .map(entity -> (ExperienceOrb) entity)
       .findFirst()
       .orElse(null);
-  }
-
-  private static int getDropAmount(Spawner spawner) {
-    final ConfigurationSection config = spawner.getDropType().getCustomHandlerConfig();
-
-    if (config == null)
-      return 1;
-
-    return Math.max(1, config.getInt("level-amount", 1));
   }
 
   @Override

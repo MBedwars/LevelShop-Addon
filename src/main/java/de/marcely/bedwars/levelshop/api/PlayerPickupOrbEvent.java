@@ -32,7 +32,7 @@ public class PlayerPickupOrbEvent extends PlayerEvent implements ArenaEvent {
   }
 
   public PlayerPickupOrbEvent(PlayerPickupOrbEvent event, Player player) { // Used by GenSplitter addon
-    this(player, event.getArena(), event.getLevelAmount());
+    this(player, event.arena, event.levelAmount);
   }
 
   /**

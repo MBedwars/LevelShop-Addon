@@ -3,10 +3,15 @@ package de.marcely.bedwars.levelshop;
 import de.marcely.bedwars.api.GameAPI;
 import de.marcely.bedwars.api.arena.Arena;
 import de.marcely.bedwars.api.arena.ArenaStatus;
+import de.marcely.bedwars.api.event.player.PlayerPickupDropEvent;
+import de.marcely.bedwars.api.game.spawner.DropType;
+import de.marcely.bedwars.levelshop.api.PlayerPickupLevelItemEvent;
 import de.marcely.bedwars.levelshop.api.PlayerPickupOrbEvent;
+import de.marcely.bedwars.tools.NMSHelper;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,6 +23,7 @@ class LevelEventsHandler implements Listener {
 
   private final LevelShopPlugin plugin;
 
+  // picking up orbs
   @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
   public void onPlayerExpChangeEvent(PlayerExpChangeEvent event) {
     if (event.getAmount() <= 0)
@@ -62,5 +68,40 @@ class LevelEventsHandler implements Listener {
         player.setExp(0);
       }
     });
+  }
+
+  // picking up items
+  @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+  public void onPlayerPickupDrop(PlayerPickupDropEvent event) {
+    final DropType dropType = event.getDropType();
+    int itemLvl = SpawnerConfig.getItemLvlAmount(dropType);
+
+    if (itemLvl <= 0)
+      return;
+
+    event.setCancelled(true);
+
+    // ask api
+    final Player player = event.getPlayer();
+    final Item item = event.getItem();
+    final PlayerPickupLevelItemEvent apiEvent = new PlayerPickupLevelItemEvent(
+        player, event.getArena(), dropType, item, itemLvl);
+
+    Bukkit.getPluginManager().callEvent(apiEvent);
+    itemLvl = apiEvent.getPerItemLevelAmount();
+
+    // simulate picking up
+    if (itemLvl > 0)
+      NMSHelper.get().playItemPickupAnimation(player, item, 1);
+
+    item.remove();
+
+    if (itemLvl <= 0)
+      return;
+
+    // give player lvl
+    final int newLvl = player.getLevel() + itemLvl*item.getItemStack().getAmount();
+
+    Util.setEarnedLevel(player, item.getLocation(), newLvl);
   }
 }

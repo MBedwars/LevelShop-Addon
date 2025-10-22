@@ -1,21 +1,30 @@
 package de.marcely.bedwars.levelshop;
 
 import de.marcely.bedwars.api.GameAPI;
+import de.marcely.bedwars.api.game.spawner.CustomDropTypeHandler;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class LevelShopPlugin extends JavaPlugin {
 
-  private static final short MBEDWARS_API_NUM = 204;
-  private static final String MBEDWARS_API_NAME = "5.5.4";
+  private static final short MBEDWARS_API_NUM = 205;
+  private static final String MBEDWARS_API_NAME = "5.5.5";
+
+  public static LevelShopPlugin INSTANCE;
+
+  @Getter
+  private CustomDropTypeHandler dropTypeHandler;
 
   @Override
   public void onEnable() {
     if (!validateMBedwars())
       return;
 
+    INSTANCE = this;
+
     new LevelShopAddon(this).register();
-    GameAPI.get().registerCustomSpawnerHandler(new LevelDropTypeHandler(this));
+    GameAPI.get().registerCustomSpawnerHandler(dropTypeHandler = new LevelDropTypeHandler(this));
 
     Bukkit.getPluginManager().registerEvents(new LevelEventsHandler(this), this);
     Bukkit.getPluginManager().registerEvents(new ShopAbuseFix(), this);
