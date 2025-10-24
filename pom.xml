@@ -101,6 +101,7 @@
           </execution>
         </executions>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -110,6 +111,7 @@
           <outputDirectory>${project.basedir}/out/</outputDirectory>
         </configuration>
       </plugin>
+
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
         <version>3.4.0</version>
@@ -123,7 +125,28 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin> <!-- needed for javadoc -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.3.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+            <configuration>
+              <includes>
+                <include>de/marcely/bedwars/api/**</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
+
     <resources>
       <resource>
         <directory>src/main/resources</directory>
