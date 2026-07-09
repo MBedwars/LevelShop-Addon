@@ -42,11 +42,22 @@ class LevelDropTypeHandler extends CustomDropTypeHandler {
 
   @Override
   public void take(Player player, int amount) {
-    player.setLevel(Math.max(0, player.getLevel() - amount));
+    addLevel(player, -amount);
   }
 
   @Override
   public void give(Player player, int amount) {
-    player.setLevel(player.getLevel() + amount);
+    addLevel(player, amount);
+  }
+
+  private void addLevel(Player player, int amount) {
+    final int currentLevel = player.getLevel();
+    final int newLevel = Math.max(0, currentLevel + amount);
+
+    if (newLevel == currentLevel)
+      return;
+
+    player.setLevel(newLevel);
+    player.setTotalExperience(Util.getTotalExp(newLevel)); // bukkit API doesn't both at the same time -> would cause further issues
   }
 }

@@ -1,6 +1,7 @@
 package de.marcely.bedwars.levelshop;
 
 import de.marcely.bedwars.tools.Helper;
+import de.marcely.bedwars.tools.Validate;
 import java.util.concurrent.ThreadLocalRandom;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -12,6 +13,10 @@ public class Util {
   private static final Sound LEVELUP_SOUND = Helper.get().getSoundByName("ENTITY_PLAYER_LEVELUP");
 
   public static int getTotalExp(int level) {
+    Validate.isTrue(level >= 0, "level must be >= 0");
+
+    level = Math.min(level, 21863); // avoid overflow
+
     if (level >= 32)
       return (int) (4.5D*level*level - 162.5*level + 2220);
     else if (level >= 17)
