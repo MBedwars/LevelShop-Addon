@@ -14,16 +14,15 @@ class LevelDropTypeHandler extends CustomDropTypeHandler {
   }
 
   @Override
-  public void handleDrop(Spawner spawner, Location dropLocation) {
-    final int amount = SpawnerConfig.getOrbLvlAmount(spawner.getDropType());
+  public void handleDrop(Spawner spawner, Location dropLocation, int dropAmount) {
     ExperienceOrb orb = getNearbyOrb(dropLocation);
 
     if (orb == null) {
       orb = (ExperienceOrb) dropLocation.getWorld().spawnEntity(dropLocation, EntityType.EXPERIENCE_ORB);
-      orb.setExperience(amount);
+      orb.setExperience(dropAmount);
 
     } else
-      orb.setExperience(orb.getExperience() + amount);
+      orb.setExperience(orb.getExperience() + dropAmount);
   }
 
   // First try to merge them together. Otherwise, they get merged but their amount doesn't get added together

@@ -65,24 +65,6 @@ public class LevelShopAPI {
   }
 
   /**
-   * Get the amount of orbs (in levels) a given drop type will drop.
-   * <p>
-   *   The value depends on the server's configuration.
-   * </p>
-   *
-   * @param dropType The drop type to check
-   * @return The amount of levels it will drop or 0 if it doesn't drop any
-   */
-  public int getDroppingOrbsLvlAmount(DropType dropType) {
-    Validate.notNull(dropType, "dropType");
-
-    if (dropType.getCustomHandler() != LevelShopPlugin.INSTANCE.getDropTypeHandler())
-      return 0;
-
-    return SpawnerConfig.getOrbLvlAmount(dropType);
-  }
-
-  /**
    * Get the amount of level a player will earn if it will pick up a dropped item.
    *
    * @param dropType The drop type to check that drops items

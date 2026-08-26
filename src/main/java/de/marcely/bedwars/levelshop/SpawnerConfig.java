@@ -5,15 +5,6 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class SpawnerConfig {
 
-  public static int getOrbLvlAmount(DropType type) {
-    final ConfigurationSection config = type.getCustomHandlerConfig();
-
-    if (config == null)
-      return 1;
-
-    return Math.max(1, config.getInt("orb-level-amount", 1));
-  }
-
   public static int getItemLvlAmount(DropType type) {
     final ConfigurationSection config = type.getCustomHandlerConfig();
 
